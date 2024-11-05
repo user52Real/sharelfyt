@@ -23,7 +23,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["jest", "node", "three", "@testing-library/jest-dom"]
+    "types": ["jest", "node", "three"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src",  "jest.setup.ts", "__tests__/**/*.test.tsx"],
   "exclude": ["node_modules"]

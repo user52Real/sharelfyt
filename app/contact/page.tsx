@@ -76,7 +76,7 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-lg text-gray-400">
-            Let's discuss how we can transform your digital presence
+            Let&apos;s discuss how we can transform your digital presence
           </p>
         </motion.div>
 

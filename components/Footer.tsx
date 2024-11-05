@@ -12,7 +12,7 @@ const Footer = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white">YourCompany</h3>
               <p className="text-sm text-gray-400">
-                Building digital solutions for tomorrow's challenges.
+                Building digital solutions for tomorrow&apos;s challenges.
               </p>
               <div className="flex space-x-4">
                 <Link href="#" className="text-gray-400 hover:text-white">
