@@ -15,54 +15,87 @@ const nextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
-  webpack: (config) => {
-    config.externals.push({
-      "three/examples/jsm/controls/OrbitControls": "OrbitControls",
-      "utf-8-validate": "commonjs utf-8-validate",
-      bufferutil: "commonjs bufferutil",
-    });
+  webpack: (config, { isServer }) => {
+    // Correct externals configuration
+    if (!config.externals) {
+      config.externals = [];
+    }
+
+    // Handle Three.js and WebSocket-related externals
+    if (isServer) {
+      config.externals.push({
+        "utf-8-validate": "commonjs utf-8-validate",
+        bufferutil: "commonjs bufferutil",
+      });
+    }
+
+    // Handle OrbitControls properly
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'three/OrbitControls': 'three/examples/jsm/controls/OrbitControls',
+    };
+
+    // Client-side fallbacks
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        dns: false,
+        child_process: false,
+      };
+    }
+
     return config;
   },
+  // CORS headers configuration
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/api/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.ALLOWED_ORIGINS || '*'
+            value: process.env.ALLOWED_ORIGINS || '*',
           },
           {
             key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS'
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
           },
           {
             key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization'
-          }
-        ]
-      }
+            value: 'X-Requested-With, Content-Type, Authorization',
+          },
+          {
+            key: 'Access-Control-Allow-Credentials',
+            value: 'true',
+          },
+        ],
+      },
     ];
-  }
+  },
 };
 
-module.exports = nextConfig;
-
-// Injected content via Sentry wizard below
-
+// Sentry configuration
 const { withSentryConfig } = require("@sentry/nextjs");
 
-module.exports = withSentryConfig(module.exports, {
+// Sentry configuration options
+const sentryWebpackPluginOptions = {
   org: "shareflyt",
   project: "shareflyt",
-  authToken: process.env.SENTRY_AUTH_TOKEN,  
-  silent: !process.env.CI,    
-  widenClientFileUpload: true, 
-  tunnelRoute: "/monitoring",  
-  hideSourceMaps: true,  
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: true,
+  widenClientFileUpload: true,
+  tunnelRoute: "/monitoring",
+  hideSourceMaps: true,
   disableLogger: true,
   transpileClientSDK: true,
   automaticVercelMonitors: true,
-  hideSourceMaps: true,
-  disableLogger: true
-});
+};
+
+// Export the configuration
+module.exports = withSentryConfig(
+  nextConfig,
+  sentryWebpackPluginOptions
+);

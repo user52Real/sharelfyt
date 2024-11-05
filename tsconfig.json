@@ -12,7 +12,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "incremental": true,
     "plugins": [
       {
@@ -22,8 +23,8 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["jest", "@testing-library/jest-dom", "node", "three"]
+    "types": ["jest", "node", "three", "@testing-library/jest-dom"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src",  "jest.setup.ts", "__tests__/**/*.test.tsx"],
   "exclude": ["node_modules"]
 }
