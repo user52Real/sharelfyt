@@ -45,7 +45,7 @@ export default function PortfolioPage() {
           className="mb-16 text-center"
         >
           <h1 className="mb-4 bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-5xl font-bold text-transparent">
-            Our Portfolio
+            My Portfolio
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-gray-400">
             Showcasing our best work and successful projects
@@ -53,45 +53,39 @@ export default function PortfolioPage() {
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, i) => (
+          {projects.map((project, index) => (
             <motion.div
-              key={i}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 * i }}
-              className="group"
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="overflow-hidden rounded-lg bg-white/5 backdrop-blur-sm"
             >
-              <Link href={project.link}>
-                <div className="relative overflow-hidden rounded-lg bg-white/5 backdrop-blur-sm">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    className="transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="absolute bottom-0 p-6">
-                      <h3 className="mb-2 text-xl font-bold">
-                        {project.title}
-                      </h3>
-                      <p className="mb-4 text-gray-300">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag, j) => (
-                          <span
-                            key={j}
-                            className="rounded-full bg-white/10 px-3 py-1 text-sm"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+              {/* Image Container with Fixed Aspect Ratio */}
+              <div className="relative aspect-[16/9] w-full overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-300 hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+              {/* Project Details */}
+              <div className="p-6">
+                <h3 className="mb-2 text-xl font-bold">{project.title}</h3>
+                <p className="mb-4 text-gray-400">{project.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-white/10 px-3 py-1 text-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              </Link>
+              </div>
             </motion.div>
           ))}
         </div>
