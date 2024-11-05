@@ -9,4 +9,6 @@ export function GET() {
   return apiHandler(async () => {
     throw APIError.Internal("Sentry Example API Route Error");
   });
-}[4]
+}
+
+export const runtime = 'edge';

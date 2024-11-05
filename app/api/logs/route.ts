@@ -96,8 +96,4 @@ export async function POST(request: Request) {
   }
 }
 
-// Add error boundary
-export async function GET() {
-  throw APIError.BadRequest('Method not allowed');
-}
-
+export const runtime = 'edge';

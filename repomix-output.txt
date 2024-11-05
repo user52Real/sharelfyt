@@ -124,6 +124,7 @@ types/
   common.ts
   components.ts
   env.d.ts
+  jest-dom.d.ts
   jest.d.ts
 .eslintrc.json
 .prettierrc
@@ -175,23 +176,64 @@ describe('Contact API', () => {
 ================
 File: __tests__/components/Button.test.tsx
 ================
+// __tests__/components/Button.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Button } from '@/components/ui/button';
+import '@testing-library/jest-dom';
+import { describe, it } from 'node:test';
+
+// Define the valid variant types
+type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
 
 describe('Button Component', () => {
+  const defaultProps = {
+    children: 'Click me',
+    variant: 'default' as ButtonVariant,
+    size: 'default' as ButtonSize,
+    className: '',
+    disabled: false,
+  };
+
   it('renders button with default props', () => {
-    render(<Button>Click me</Button>);
+    render(<Button {...defaultProps} />);
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('btn-primary');
+    expect(button).toHaveTextContent('Click me');
   });
 
   it('handles click events', () => {
     const onClick = jest.fn();
-    render(<Button onClick={onClick}>Click me</Button>);
+    render(<Button {...defaultProps} onClick={onClick} />);
     fireEvent.click(screen.getByRole('button'));
     expect(onClick).toHaveBeenCalledTimes(1);
-  }); 
+  });
+
+  it('applies variant styles correctly', () => {
+    const variants: ButtonVariant[] = ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'];
+    variants.forEach(variant => {
+      const { rerender } = render(<Button {...defaultProps} variant={variant} />);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass(`variant-${variant}`);
+      rerender(<></>);
+    });
+  });
+
+  it('applies size styles correctly', () => {
+    const sizes: ButtonSize[] = ['default', 'sm', 'lg', 'icon'];
+    sizes.forEach(size => {
+      const { rerender } = render(<Button {...defaultProps} size={size} />);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass(`size-${size}`);
+      rerender(<></>);
+    });
+  });
+
+  it('disables button when disabled prop is true', () => {
+    render(<Button {...defaultProps} disabled />);
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+  });
 });
 
 ================
@@ -843,7 +885,7 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-lg text-gray-400">
-            Let's discuss how we can transform your digital presence
+            Let&apos;s discuss how we can transform your digital presence
           </p>
         </motion.div>
 
@@ -2945,7 +2987,7 @@ const Footer = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white">YourCompany</h3>
               <p className="text-sm text-gray-400">
-                Building digital solutions for tomorrow's challenges.
+                Building digital solutions for tomorrow&apos;s challenges.
               </p>
               <div className="flex space-x-4">
                 <Link href="#" className="text-gray-400 hover:text-white">
@@ -3650,6 +3692,8 @@ export type NotificationState = NotificationMessage | null;
 ================
 File: lib/validations/contact.ts
 ================
+'use client';
+
 import { z } from "zod";
 import DOMPurify from 'isomorphic-dompurify';
 
@@ -3850,67 +3894,30 @@ export const logger = Logger.getInstance();
 ================
 File: lib/rate-limit.ts
 ================
-import { Redis } from '@upstash/redis'
-import { Ratelimit } from '@upstash/ratelimit'
-import { NextResponse } from 'next/server'
+// lib/rate-limit.ts
 import { RateLimiterMemory } from 'rate-limiter-flexible';
-import { Socket } from 'socket.io';
+import { NextResponse } from 'next/server';
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_URL!,
-  token: process.env.UPSTASH_REDIS_TOKEN!
-})
-
-const wsLimiter = new RateLimiterMemory({
-  points: 100, // Number of connections allowed
+const limiter = new RateLimiterMemory({
+  points: 5, // Number of points
   duration: 60, // Per 60 seconds
 });
-
-
-// Create a new ratelimiter that allows 5 requests per 60 seconds
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, '60s'),
-  analytics: true,
-  prefix: 'shareflyt-api',
-})
 
 export async function withRateLimit(
   request: Request,
   handler: () => Promise<NextResponse>
 ) {
-  const ip = request.headers.get('x-forwarded-for') ?? '127.0.0.1'
-  const { success, pending, limit, reset, remaining } = await ratelimit.limit(
-    `ratelimit_${ip}`
-  )
-
-  if (!success) {
-    return NextResponse.json(
-      {
-        error: 'Too many requests',
-        message: 'Please try again later'
-      },
-      {
-        status: 429,
-        headers: {
-          'X-RateLimit-Limit': limit.toString(),
-          'X-RateLimit-Remaining': remaining.toString(),
-          'X-RateLimit-Reset': reset.toString()
-        }
-      }
-    )
-  }
-
-  return handler()
-}
-
-export const socketRateLimit = async (socket: Socket) => {
   try {
-    await wsLimiter.consume(socket.handshake.address);
-  } catch {
-    socket.disconnect(true);
+    const ip = request.headers.get('x-forwarded-for') || 'anonymous';
+    await limiter.consume(ip);
+    return await handler();
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Too many requests, please try again later.' },
+      { status: 429 }
+    );
   }
-};
+}
 
 ================
 File: lib/utils.ts
@@ -4198,6 +4205,21 @@ declare namespace NodeJS {
 }
 
 ================
+File: types/jest-dom.d.ts
+================
+import '@testing-library/jest-dom';
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeInTheDocument(): R;
+      toHaveTextContent(text: string): R;
+      // Add other matchers you're using
+    }
+  }
+}
+
+================
 File: types/jest.d.ts
 ================
 import '@testing-library/jest-dom';
@@ -4223,6 +4245,7 @@ File: .eslintrc.json
 {
   "extends": "next/core-web-vitals"
 }
+
 
 ================
 File: .prettierrc
@@ -4281,9 +4304,10 @@ const createJestConfig = nextJest({
 
 const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   collectCoverageFrom: [
     'app/**/*.{js,jsx,ts,tsx}',
@@ -4309,18 +4333,17 @@ export default createJestConfig(config);
 File: jest.setup.ts
 ================
 import '@testing-library/jest-dom';
+import { expect } from '@jest/globals';
 
 declare global {
-    namespace jest {
-      interface Matchers<R> {
-        toBeInTheDocument(): R;
-        toHaveAttribute(attr: string, value?: string): R;
-        toHaveTextContent(text: string | RegExp): R;
-        toBeVisible(): R;
-        toBeDisabled(): R;
-        toHaveClass(className: string): R;
-      }
+  namespace jest {
+    interface Matchers<R> {
+      toBeInTheDocument(): R;
+      toHaveTextContent(text: string | RegExp): R;
+      toHaveClass(...classNames: string[]): R;
+      toBeDisabled(): R;
     }
+  }
 }
 
 ================
@@ -4402,57 +4425,90 @@ const nextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
-  webpack: (config) => {
-    config.externals.push({
-      "three/examples/jsm/controls/OrbitControls": "OrbitControls",
-      "utf-8-validate": "commonjs utf-8-validate",
-      bufferutil: "commonjs bufferutil",
-    });
+  webpack: (config, { isServer }) => {
+    // Correct externals configuration
+    if (!config.externals) {
+      config.externals = [];
+    }
+
+    // Handle Three.js and WebSocket-related externals
+    if (isServer) {
+      config.externals.push({
+        "utf-8-validate": "commonjs utf-8-validate",
+        bufferutil: "commonjs bufferutil",
+      });
+    }
+
+    // Handle OrbitControls properly
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'three/OrbitControls': 'three/examples/jsm/controls/OrbitControls',
+    };
+
+    // Client-side fallbacks
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        dns: false,
+        child_process: false,
+      };
+    }
+
     return config;
   },
+  // CORS headers configuration
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/api/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.ALLOWED_ORIGINS || '*'
+            value: process.env.ALLOWED_ORIGINS || '*',
           },
           {
             key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS'
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
           },
           {
             key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization'
-          }
-        ]
-      }
+            value: 'X-Requested-With, Content-Type, Authorization',
+          },
+          {
+            key: 'Access-Control-Allow-Credentials',
+            value: 'true',
+          },
+        ],
+      },
     ];
-  }
+  },
 };
 
-module.exports = nextConfig;
-
-// Injected content via Sentry wizard below
-
+// Sentry configuration
 const { withSentryConfig } = require("@sentry/nextjs");
 
-module.exports = withSentryConfig(module.exports, {
+// Sentry configuration options
+const sentryWebpackPluginOptions = {
   org: "shareflyt",
   project: "shareflyt",
-  authToken: process.env.SENTRY_AUTH_TOKEN,  
-  silent: !process.env.CI,    
-  widenClientFileUpload: true, 
-  tunnelRoute: "/monitoring",  
-  hideSourceMaps: true,  
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: true,
+  widenClientFileUpload: true,
+  tunnelRoute: "/monitoring",
+  hideSourceMaps: true,
   disableLogger: true,
   transpileClientSDK: true,
   automaticVercelMonitors: true,
-  hideSourceMaps: true,
-  disableLogger: true
-});
+};
+
+// Export the configuration
+module.exports = withSentryConfig(
+  nextConfig,
+  sentryWebpackPluginOptions
+);
 
 ================
 File: package.json
@@ -4484,9 +4540,12 @@ File: package.json
     "framer-motion-3d": "^11.11.11",
     "geist": "^1.1.0",
     "gsap": "^3.12.5",
+    "isomorphic-dompurify": "^2.16.0",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.294.0",
     "next": "14.0.3",
+    "rate-limiter-flexible": "^5.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-error-boundary": "^4.1.2",
@@ -4501,6 +4560,8 @@ File: package.json
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.1",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -4709,7 +4770,8 @@ File: tsconfig.json
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "incremental": true,
     "plugins": [
       {
@@ -4719,8 +4781,8 @@ File: tsconfig.json
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["jest", "@testing-library/jest-dom", "node", "three"]
+    "types": ["jest", "node", "three"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src",  "jest.setup.ts", "__tests__/**/*.test.tsx"],
   "exclude": ["node_modules"]
 }
