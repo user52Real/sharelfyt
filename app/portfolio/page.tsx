@@ -8,25 +8,25 @@ import Link from "next/link";
 export default function PortfolioPage() {
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "Modern e-commerce solution with advanced features",
-      image: "/project-1.webp",
-      tags: ["Next.js", "TypeScript", "Tailwind"],
-      link: "#",
+      title: "Feest",
+      description: "A modern, feature-rich event management platform built with Next.js 14, offering comprehensive tools for organizing, managing, and hosting events.",
+      image: "/feest.webp",
+      tags: ["Next.js", "TypeScript", "Tailwind", "MongoDB", "Clerk"],
+      link: "https://feest.vercel.app/",
     },
     {
-      title: "Healthcare Dashboard",
-      description: "Comprehensive healthcare management system",
-      image: "/project-2.webp",
-      tags: ["React", "Node.js", "MongoDB"],
-      link: "#",
+      title: "Collab Notes",
+      description: "",
+      image: "/collab.webp",
+      tags: ["NextJS", "Node.js", "Clerk"],
+      link: "https://collab-notes-drab.vercel.app/",
     },
     {
-      title: "Mobile Banking App",
-      description: "Secure and intuitive banking application",
-      image: "/project-3.webp",
-      tags: ["React Native", "Firebase", "Redux"],
-      link: "#",
+      title: "Cafe POS System",
+      description: "",
+      image: "/cafepos.webp",
+      tags: ["React", "Firebase", "Redux"],
+      link: "https://github.com/alani4837/cafe-pos",
     },
   ];
 
