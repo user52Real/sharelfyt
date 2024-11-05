@@ -11,4 +11,3 @@ export function GET() {
   });
 }
 
-export const runtime = 'edge';
