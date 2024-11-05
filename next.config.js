@@ -10,8 +10,10 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  swcMinify: true,
   compress: true,
   poweredByHeader: false,
+  productionBrowserSourceMaps: false,
   reactStrictMode: true,
   webpack: (config) => {
     config.externals.push({
