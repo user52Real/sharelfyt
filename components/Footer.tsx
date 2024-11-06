@@ -10,12 +10,12 @@ const Footer = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {/* Company Info */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">YourCompany</h3>
+              <h3 className="text-lg font-semibold text-white">Shareflyt</h3>
               <p className="text-sm text-gray-400">
                 Building digital solutions for tomorrow&apos;s challenges.
               </p>
               <div className="flex space-x-4">
-                <Link href="#" className="text-gray-400 hover:text-white">
+                <Link href="https://github.com/alani4837" className="text-gray-400 hover:text-white">
                   <Github className="h-5 w-5" />
                 </Link>
               </div>
@@ -29,23 +29,15 @@ const Footer = () => {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
                   <Link
-                    href="/services/web-development"
+                    href="/services"
                     className="hover:text-white"
                   >
                     Web Development
                   </Link>
-                </li>
+                </li>                
                 <li>
                   <Link
-                    href="/services/mobile-apps"
-                    className="hover:text-white"
-                  >
-                    Mobile Apps
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/services/cloud-solutions"
+                    href="/services"
                     className="hover:text-white"
                   >
                     Cloud Solutions
