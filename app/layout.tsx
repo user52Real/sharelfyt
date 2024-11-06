@@ -43,8 +43,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script 
-          nonce={nonce}
+        <script           
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -53,7 +52,8 @@ export default function RootLayout({
                 }
               } catch (_) {}
             `
-          }} 
+          }}
+          nonce={nonce}
         />
       </head>     
       <body
