@@ -17,10 +17,7 @@ const nextConfig = {
     '@floating-ui/dom': {
       transform: '@floating-ui/dom/dist/{{member}}'
     }
-  },
-  experimental: {    
-    securityHeaders: true,
-  },
+  }, 
   swcMinify: true,
   compress: true,
   poweredByHeader: false,
@@ -69,22 +66,20 @@ const nextConfig = {
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.ALLOWED_ORIGINS || '*',
-          },
-          {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS',
-          },
-          {
-            key: 'Access-Control-Allow-Headers',
-            value: 'X-Requested-With, Content-Type, Authorization',
-          },
-          {
-            key: 'Access-Control-Allow-Credentials',
-            value: 'true',
-          },
+            value: '*',
+          }
         ],
       },
+      {
+        // Proper content type for manifest
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          }
+        ],
+      }
     ];
   },
 };
