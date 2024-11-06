@@ -18,11 +18,9 @@ export default function Home() {
       <div className="min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
         {/* Animated Background */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-blue-500 opacity-20 blur-[100px]" />
-          <div className="absolute right-0 top-1/4 -z-10 h-[310px] w-[310px] rounded-full bg-purple-500 opacity-20 blur-[100px]" />
-          <div className="absolute bottom-1/4 left-0 -z-10 h-[310px] w-[310px] rounded-full bg-emerald-500 opacity-20 blur-[100px]" />
-        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-blue-500 opacity-20 blur-[100px]" />
+      </div>
 
         {/* Hero Section */}
         <MaxWidthWrapper className="relative pb-20 pt-32">
@@ -30,65 +28,18 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col items-center justify-center text-center"
+            className="flex flex-col items-center"
           >
-            <div className="relative">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="relative"
-              >
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl"
-                >
-                  <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
-                    Shareflyt
-                  </span>
-                </motion.h1>
-                <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  className="absolute -right-2 -top-2 h-5 w-5 rounded-full bg-emerald-500"
-                />
-              </motion.div>
-            </div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl"
-            >
-              Crafting Digital
-              <span className="relative whitespace-nowrap">
-                <motion.span
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-blue-500 to-emerald-500"
-                />
-                <span className="relative bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
-                  {" "}
-                  Excellence
-                </span>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
+              <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
+                Crafting Digital Excellence
               </span>
-            </motion.h1>
+            </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
               className="mt-6 max-w-2xl text-xl text-gray-300"
             >
               Full Stack Developer specializing in creating exceptional digital
@@ -98,7 +49,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
               className="mt-10 flex flex-col justify-center gap-4 sm:flex-row"
             >
               <Link
@@ -112,13 +63,9 @@ export default function Home() {
                 )}
               >
                 Start Your Project
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </motion.span>
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
+
               <Link
                 href="/portfolio"
                 className={cn(
@@ -146,40 +93,10 @@ export default function Home() {
             <h2 className="mb-8 text-center text-sm font-medium uppercase tracking-wider text-gray-400">
               Technologies I Work With
             </h2>
-            {/* <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-              {[
-                { name: "React", icon: "/react-logo.svg" },
-                { name: "Next.js", icon: "/next-logo.svg" },
-                { name: "TypeScript", icon: "/typescript-logo.svg" },
-                { name: "Node.js", icon: "/node-logo.svg" },
-              ].map((tech, i) => (
-                <motion.div
-                  key={tech.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 + i * 0.1, duration: 0.5 }}
-                  whileHover={{ y: -5 }}
-                  className="group relative overflow-hidden rounded-lg border border-gray-800 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-emerald-500/10 opacity-0 transition-opacity group-hover:opacity-100" />
-                  <div className="relative flex flex-col items-center justify-center">
-                    <Image
-                      src={tech.icon}
-                      alt={tech.name}
-                      width={40}
-                      height={40}
-                      className="mb-3 transition-transform group-hover:scale-110"
-                    />
-                    <span className="text-sm font-medium">{tech.name}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div> */}
             <TechStackGrid />
           </motion.div>
 
           {/* Interactive Experience Section */}
-
           <Scene />
 
           {/* Latest Articles/Blog Preview */}

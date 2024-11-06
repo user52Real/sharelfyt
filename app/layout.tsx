@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import CustomChat from "@/components/CustomChat";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -37,8 +38,24 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const nonce = headers().get('x-nonce') || undefined;;
   return (
-    <html lang="en" className="dark">      
+    <html lang="en" className="dark">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script 
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                }
+              } catch (_) {}
+            `
+          }} 
+        />
+      </head>     
       <body
         className={cn(
           "flex min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",

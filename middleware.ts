@@ -1,15 +1,12 @@
-// middleware.ts
 import { NextResponse, type NextRequest } from 'next/server';
-import { headers } from 'next/headers';
 
-function generateNonce() {
-  const uuid = crypto.randomUUID();
-  return Buffer.from(uuid).toString('base64');
+function generateNonce(): string {
+  return crypto.randomUUID();
 }
 
 export function middleware(request: NextRequest) {
   const nonce = generateNonce();
-  const isDev = process.env.NODE_ENV === 'development';
+  const isProd = process.env.NODE_ENV === 'production';
   
   // Add nonce to headers for use in _document.tsx
   const requestHeaders = new Headers(request.headers);
@@ -17,19 +14,14 @@ export function middleware(request: NextRequest) {
 
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: ${isDev ? "'unsafe-eval'" : ''} ${isDev ? "'unsafe-inline'" : ''};
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src 'self' https://fonts.gstatic.com data:;
-    img-src 'self' data: blob: https:;
+    script-src 'self' ${isProd ? `'nonce-${nonce}'` : "'unsafe-inline' 'unsafe-eval'"} https:;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data: https:;
+    font-src 'self' data: https:;
+    connect-src 'self' ws: wss: https:;
     media-src 'self';
-    connect-src 'self' ${isDev ? 'ws:' : ''} https:;
+    frame-src 'self';
     worker-src 'self' blob:;
-    manifest-src 'self';
-    frame-ancestors 'none';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    upgrade-insecure-requests;
   `.replace(/\s{2,}/g, ' ').trim();
 
   const response = NextResponse.next({
@@ -59,6 +51,6 @@ export const config = {
      * 4. /_vercel (Vercel internals)
      * 5. /favicon.ico, /manifest.webmanifest (static files)
      */
-    '/((?!api|_next|_static|_vercel|favicon.ico|manifest.webmanifest).*)',
+    '/((?!api|_next|fonts|icons|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };
