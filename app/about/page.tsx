@@ -46,12 +46,20 @@ export default function AboutPage() {
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="rounded-lg bg-white/5 p-4 backdrop-blur-sm">
-                <h3 className="text-2xl font-bold text-blue-400">100+</h3>
-                <p className="text-gray-400">Projects Delivered</p>
+                <h3 className="text-2xl font-bold text-blue-400">Instant</h3>
+                <p className="text-gray-400">Response Times</p>
               </div>
               <div className="rounded-lg bg-white/5 p-4 backdrop-blur-sm">
-                <h3 className="text-2xl font-bold text-emerald-400">50+</h3>
-                <p className="text-gray-400">Happy Clients</p>
+                <h3 className="text-2xl font-bold text-emerald-400">Powerful</h3>
+                <p className="text-gray-400">Performance</p>
+              </div>
+              <div className="rounded-lg bg-white/5 p-4 backdrop-blur-sm">
+                <h3 className="text-2xl font-bold text-emerald-400">Modern</h3>
+                <p className="text-gray-400">Technology</p>
+              </div>
+              <div className="rounded-lg bg-white/5 p-4 backdrop-blur-sm">
+                <h3 className="text-2xl font-bold text-emerald-400">Scalable</h3>
+                <p className="text-gray-400">Architecture</p>
               </div>
             </div>
           </motion.div>

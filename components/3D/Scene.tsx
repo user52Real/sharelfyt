@@ -10,7 +10,7 @@ export default function Scene() {
     <div className="h-[400px] w-full">
       <Canvas
         camera={{
-          position: new THREE.Vector3(0, 0, 5),
+          position: new THREE.Vector3(0, 0, 2),
           fov: 75,
           near: 0.1,
           far: 1000,

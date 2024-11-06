@@ -29,6 +29,8 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="flex flex-col items-center"
           >
+            <br />
+            <br />
             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
               <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
                 Crafting Digital Excellence
@@ -80,6 +82,8 @@ export default function Home() {
               </Link>
             </motion.div>
           </motion.div>
+          <br />
+          <br />
 
           {/* Tech Stack */}
           <motion.div
@@ -94,12 +98,13 @@ export default function Home() {
             </h2>
             <TechStackGrid />
           </motion.div>
-
+          <br />
+          <br />
           {/* Interactive Experience Section */}
           <Scene />
 
           {/* Latest Articles/Blog Preview */}
-          <MaxWidthWrapper className="relative py-20">
+          {/* <MaxWidthWrapper className="relative py-20">
             <h2 className="mb-16 bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-center text-4xl font-bold text-transparent">
               Latest Insights
             </h2>
@@ -125,11 +130,15 @@ export default function Home() {
                       <span>Dec 2023</span>
                     </div>
                   </div>
+                  
                 </motion.div>
+                
               ))}
             </div>
-          </MaxWidthWrapper>
+          </MaxWidthWrapper> */}
 
+          <br />
+          <br />
           {/* Newsletter Signup */}
           <MaxWidthWrapper className="relative py-20">
             <div className="relative rounded-xl border border-gray-800 bg-black/40 p-8 text-center backdrop-blur-sm">
