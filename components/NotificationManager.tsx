@@ -9,7 +9,7 @@ import {
 } from "@/lib/types/notification";
 
 interface NotificationManagerProps {
-  socket: any; // Replace 'any' with your socket type
+  socket: any; 
   onNotificationClick: () => void;
 }
 

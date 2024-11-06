@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-// Define the tech stack items with proper dimensions
 const techStack = [
   { 
     name: "React", 

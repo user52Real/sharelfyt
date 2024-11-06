@@ -169,7 +169,7 @@ export default function MobileNav({ items }: MobileNavProps) {
                   Get in Touch
                 </h4>
                 <p className="mb-3 text-sm text-gray-400">
-                  Ready to start your project? Let's talk about your ideas.
+                  Ready to start your project? Let&apos;s talk about your ideas.
                 </p>
                 <Link
                   href="/contact"
