@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomChat from "@/components/CustomChat";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import defaultMetadata from './metadata'
 
 export const metadata: Metadata = defaultMetadata
@@ -50,7 +50,7 @@ export default function RootLayout({
       >
         <ErrorBoundary>          
           <Navbar />
-          <main className="flex-1" id="main-content" tabIndex={-1}>{children}</main>
+          <main className="flex-1" id="main-content" tabIndex={-1}>{children} <SpeedInsights /></main>
           <CustomChat />
           <Footer />
         </ErrorBoundary>

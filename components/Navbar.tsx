@@ -1,157 +1,150 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { RocketIcon, ExternalLink } from 'lucide-react'
 import MaxWidthWrapper from './MaxWidthWrapper'
+import MobileNav from './MobileNav'
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/contact', label: 'Contact' },
+]
+
+const MotionLink = motion.create(Link)
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
   const pathname = usePathname()
+  const [scrolled, setScrolled] = useState(false)
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null)
 
-  const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/services', label: 'Services' },
-    { href: '/portfolio', label: 'Portfolio' },
-    { href: '/contact', label: 'Contact' },
-  ]
-
-  // Close menu when clicking outside
+  // Handle scroll effect
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-      }
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
     }
 
-    // Close menu on escape key
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false)
-        buttonRef.current?.focus()
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-      document.addEventListener('keydown', handleEscape)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-      document.removeEventListener('keydown', handleEscape)
-    }
-  }, [isOpen])
-
-  // Close menu on route change
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <nav 
-      className="sticky top-0 z-50 bg-black/50 backdrop-blur-lg border-b border-gray-800" 
-      role="navigation" 
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-black/80 backdrop-blur-lg shadow-lg' 
+          : 'bg-transparent'
+      }`}
+      role="navigation"
       aria-label="Main navigation"
     >
-      <MaxWidthWrapper className="flex items-center justify-between h-16">
-        <Link 
-          href="/" 
-          className="text-xl font-bold"
-          aria-label="ShareFlyt - Return to homepage"
-        >
-          ShareFlyt
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-8">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`transition-colors hover:text-blue-400 ${
-                pathname === item.href ? 'text-blue-400' : 'text-gray-300'
-              }`}
-              aria-current={pathname === item.href ? 'page' : undefined}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Hamburger Menu Button */}
-        <button
-          ref={buttonRef}
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-gray-300 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-        >
-          <span className="sr-only">{isOpen ? 'Close menu' : 'Open menu'}</span>
-          <div className="w-6 h-6 flex flex-col justify-around">
-            <span 
-              className={`block h-0.5 w-6 bg-current transform transition duration-300 ease-in-out ${
-                isOpen ? 'rotate-45 translate-y-1.5' : ''
-              }`}
-            />
-            <span 
-              className={`block h-0.5 w-6 bg-current transition duration-300 ease-in-out ${
-                isOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span 
-              className={`block h-0.5 w-6 bg-current transform transition duration-300 ease-in-out ${
-                isOpen ? '-rotate-45 -translate-y-1.5' : ''
-              }`}
-            />
-          </div>
-        </button>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
+      <MaxWidthWrapper>
+        <div className="relative flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="group flex items-center gap-2 text-xl font-bold"
+            aria-label="ShareFlyt - Return to homepage"
+          >
             <motion.div
-              ref={menuRef}
-              id="mobile-menu"
-              className="absolute top-16 left-0 right-0 bg-black/95 backdrop-blur-lg md:hidden"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 0.7, ease: "easeInOut" }}
             >
-              <div className="px-4 pt-2 pb-3 space-y-1">
-                {navItems.map((item) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className={`block px-3 py-2 rounded-md ${
-                        pathname === item.href 
-                          ? 'bg-blue-500 text-white' 
-                          : 'text-gray-300 hover:bg-blue-500/10 hover:text-blue-400'
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                      aria-current={pathname === item.href ? 'page' : undefined}
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
+              <RocketIcon className="h-6 w-6 transition-transform group-hover:-rotate-12" />
             </motion.div>
-          )}
-        </AnimatePresence>
+            <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              ShareFlyt
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:space-x-1">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href
+              
+              return (
+                <div key={item.href} className="relative px-2">
+                  <MotionLink
+                    href={item.href}
+                    className={`relative flex items-center px-3 py-2 text-sm transition-colors ${
+                      isActive
+                        ? 'text-blue-400'
+                        : 'text-gray-300 hover:text-white'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                    onMouseEnter={() => setHoveredPath(item.href)}
+                    onMouseLeave={() => setHoveredPath(null)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="relative z-10">{item.label}</span>
+
+                    {/* Hover Effect */}
+                    {hoveredPath === item.href && (
+                      <motion.div
+                        layoutId="navbar-hover"
+                        className="absolute inset-0 -z-10 rounded-lg bg-white/10"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.25,
+                          duration: 0.3
+                        }}
+                      />
+                    )}
+
+                    {/* Active Indicator */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="navbar-active"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.25,
+                          duration: 0.5
+                        }}
+                      />
+                    )}
+                  </MotionLink>
+                </div>
+              )
+            })}
+
+            {/* Call to Action Button */}
+            {/* <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link
+                href="/contact"
+                className="group ml-4 flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:shadow-blue-500/25"
+              >
+                Start Project
+                <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div> */}
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <MobileNav items={navItems} />
+          </div>
+        </div>
       </MaxWidthWrapper>
-    </nav>
+
+      {/* Gradient Border */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        className="absolute bottom-0 h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent"
+      />
+    </motion.nav>
   )
 }

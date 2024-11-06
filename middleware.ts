@@ -1,15 +1,17 @@
-// middleware.ts
 import { NextResponse, type NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const nonce = generateNonce();
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
   
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-    style-src 'self' 'nonce-${nonce}';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: ${process.env.NODE_ENV === 'development' ? "'unsafe-eval'" : ''};
+    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
     img-src 'self' blob: data:;
-    font-src 'self';
+    font-src 'self' https://cdnjs.cloudflare.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
@@ -18,13 +20,18 @@ export function middleware(request: NextRequest) {
     upgrade-insecure-requests;
   `.replace(/\s{2,}/g, ' ').trim();
 
-  const response = NextResponse.next();
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
   
   response.headers.set('Content-Security-Policy', cspHeader);
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('X-XSS-Protection', '1; mode=block');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
   return response;
 }
@@ -36,7 +43,7 @@ function generateNonce() {
     crypto.getRandomValues(randomBytes);
     
     // Convert to base64
-    return btoa(String.fromCharCode(...randomBytes));
+    return Buffer.from(randomBytes).toString('base64');
 }
   
 // Configure middleware to run on specific paths

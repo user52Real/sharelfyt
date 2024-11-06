@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["three"],
+  transpilePackages: ["three", "@floating-ui/react", "@floating-ui/dom"],
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -9,6 +9,17 @@ const nextConfig = {
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  modularizeImports: {
+    '@floating-ui/react': {
+      transform: '@floating-ui/react/dist/{{member}}'
+    },
+    '@floating-ui/dom': {
+      transform: '@floating-ui/dom/dist/{{member}}'
+    }
+  },
+  experimental: {    
+    securityHeaders: true,
   },
   swcMinify: true,
   compress: true,
@@ -33,6 +44,7 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       'three/OrbitControls': 'three/examples/jsm/controls/OrbitControls',
+      'bidi-js': false, 
     };
 
     // Client-side fallbacks

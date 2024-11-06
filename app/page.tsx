@@ -10,6 +10,7 @@ import { ArrowRight, Code2, Globe2, Laptop } from "lucide-react";
 import Scene from "@/components/3D/Scene";
 import { Suspense } from "react";
 import { PageLoader, SectionLoader } from '../components/loading/page-loader';
+import { TechStackGrid } from "@/components/TechStackGrid";
 
 export default function Home() {
   return (
@@ -145,7 +146,7 @@ export default function Home() {
             <h2 className="mb-8 text-center text-sm font-medium uppercase tracking-wider text-gray-400">
               Technologies I Work With
             </h2>
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            {/* <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
               {[
                 { name: "React", icon: "/react-logo.svg" },
                 { name: "Next.js", icon: "/next-logo.svg" },
@@ -173,7 +174,8 @@ export default function Home() {
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </div> */}
+            <TechStackGrid />
           </motion.div>
 
           {/* Interactive Experience Section */}

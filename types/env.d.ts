@@ -5,6 +5,8 @@ declare namespace NodeJS {
     CONTACT_EMAIL: string;
     CRISP_WEBSITE_ID: string;
     CALENDLY_URL: string;
+    REDIS_URL: string;
+    REDIS_TOKEN: string;
     // Add other env variables here
   }
 }
