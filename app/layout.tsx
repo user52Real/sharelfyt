@@ -62,6 +62,9 @@ export default function RootLayout({
           }} 
         />
       </head>      */}
+      <head>
+        <meta name="google-site-verification" content="qlvYdqcefjASHWfvGkw4CMp_dL0hIm5ohc5AOkQaWZk" />
+      </head>
       <body
         className={cn(
           "flex min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",
