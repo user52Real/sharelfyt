@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { cn } from "@/lib/utils";
@@ -8,7 +7,8 @@ import Footer from "@/components/Footer";
 import CustomChat from "@/components/CustomChat";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { headers } from "next/headers";
+import { headers } from 'next/headers';
+import { NonceProvider } from '@/components/providers/NonceProvider';
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -23,7 +23,6 @@ export const metadata: Metadata = {
       { url: "/icons/apple-icon-180.png", sizes: "180x180", type: "image/png" },
     ],
   },
-  
 };
 
 export const viewport = {
@@ -38,12 +37,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const nonce = headers().get('x-nonce') || undefined;;
+  const nonce = headers().get('x-nonce') || '';
+
   return (
     <html lang="en" className="dark">
-      <head>
+      {/* <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script           
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.__NONCE__ = "${nonce}";`,
+          }}
+        />
+        <script 
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -52,22 +59,26 @@ export default function RootLayout({
                 }
               } catch (_) {}
             `
-          }}
-          nonce={nonce}
+          }} 
         />
-      </head>     
+      </head>      */}
       <body
         className={cn(
           "flex min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",
           GeistSans.className,
         )}
       >
-        <ErrorBoundary>          
-          <Navbar />
-          <main className="flex-1" id="main-content" tabIndex={-1}>{children} <SpeedInsights /></main>
-          <CustomChat />
-          <Footer />
-        </ErrorBoundary>
+        <NonceProvider nonce={nonce}>
+          <ErrorBoundary>          
+            <Navbar />
+            <main className="flex-1" id="main-content" tabIndex={-1}>
+              {children}
+              {/* <SpeedInsights /> */}
+            </main>
+            <CustomChat />
+            <Footer />
+          </ErrorBoundary>
+        </NonceProvider>        
       </body>
     </html>
   );
