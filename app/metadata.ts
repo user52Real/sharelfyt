@@ -1,12 +1,24 @@
 import { Metadata } from 'next'
 
 const defaultMetadata: Metadata = {
+  metadataBase: new URL('https://shareflyt.xyz'),
   title: {
-    default: 'ShareFlyt - Web Development Solutions',
+    default: 'ShareFlyt - Professional Web Development & Digital Solutions',
     template: '%s | ShareFlyt'
   },
-  description: 'Professional web development and IT consulting services in Amsterdam',
-  keywords: ['web development', 'IT consulting', 'Next.js', 'React', 'Amsterdam'],
+  description: 'Expert web development, mobile app development, and cloud solutions in Amsterdam. Custom software development with modern technologies like React, Next.js, and Cloud Services.',
+  keywords: [
+    'web development',
+    'mobile app development',
+    'cloud solutions',
+    'React developer',
+    'Next.js development',
+    'Amsterdam web developer',
+    'custom software development',
+    'professional web services',
+    'digital solutions',
+    'IT consulting'
+  ],
   authors: [{ name: 'ShareFlyt' }],
   creator: 'ShareFlyt',
   publisher: 'ShareFlyt',
@@ -26,6 +38,8 @@ const defaultMetadata: Metadata = {
     locale: 'en_US',
     url: 'https://shareflyt.xyz',
     siteName: 'ShareFlyt',
+    title: 'ShareFlyt - Professional Web Development & Digital Solutions',
+    description: 'Expert web development and digital solutions in Amsterdam. Specializing in custom software, mobile apps, and cloud services.',
     images: [
       {
         url: '/og-image.jpg',
@@ -34,15 +48,19 @@ const defaultMetadata: Metadata = {
         alt: 'ShareFlyt - Web Development Solutions'
       }
     ]
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@shareflyt',
-    creator: '@shareflyt'
+  },  
+  alternates: {
+    canonical: 'https://shareflyt.xyz',
+    languages: {
+      'en-US': 'https://shareflyt.xyz',
+      'nl-NL': 'https://shareflyt.xyz/nl'
+    }
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'qlvYdqcefjASHWfvGkw4CMp_dL0hIm5ohc5AOkQaWZk',
   }
 }
 
 export default defaultMetadata
+
+
