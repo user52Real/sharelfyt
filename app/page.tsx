@@ -11,6 +11,9 @@ import { Suspense } from "react";
 import { PageLoader, SectionLoader } from '../components/loading/page-loader';
 import { TechStackGrid } from "@/components/TechStackGrid";
 
+const MotionDiv = motion.create('div')
+const MotionP = motion.create('p')
+
 export default function Home() {
   return (
     <Suspense fallback={<PageLoader />}>
@@ -23,7 +26,7 @@ export default function Home() {
 
         {/* Hero Section */}
         <MaxWidthWrapper className="relative pb-20 pt-32">
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -37,7 +40,7 @@ export default function Home() {
               </span>
             </h1>
 
-            <motion.p
+            <MotionP
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -45,9 +48,9 @@ export default function Home() {
             >
               Full Stack Developer specializing in creating exceptional digital
               experiences with modern technologies and innovative solutions.
-            </motion.p>
+            </MotionP>
 
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
@@ -80,13 +83,13 @@ export default function Home() {
               >
                 Explore My Work
               </Link>
-            </motion.div>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
           <br />
           <br />
 
           {/* Tech Stack */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
@@ -97,7 +100,7 @@ export default function Home() {
               Technologies I Work With
             </h2>
             <TechStackGrid />
-          </motion.div>
+          </MotionDiv>
           <br />
           <br />
           {/* Interactive Experience Section */}
@@ -127,24 +130,24 @@ export default function Home() {
           </MaxWidthWrapper>
 
           {/* Scroll Indicator */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.5 }}
             className="absolute bottom-10 left-1/2 -translate-x-1/2"
           >
-            <motion.div
+            <MotionDiv
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
               className="flex h-10 w-6 justify-center rounded-full border-2 border-gray-500 p-2"
             >
-              <motion.div
+              <MotionDiv
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
                 className="h-2 w-1 rounded-full bg-gray-500"
               />
-            </motion.div>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
         </MaxWidthWrapper>
       </div>
     </Suspense>

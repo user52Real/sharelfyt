@@ -12,6 +12,9 @@ import {
   type ContactFormData,
 } from "@/lib/validations/contact";
 
+
+const MotionDiv = motion.create('div')
+
 export default function ContactPage() {
   const [formStatus, setFormStatus] = useState<
     "idle" | "loading" | "success" | "error"
@@ -66,7 +69,7 @@ export default function ContactPage() {
       </div>
 
       <MaxWidthWrapper className="relative pb-20 pt-24">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -78,11 +81,11 @@ export default function ContactPage() {
           <p className="text-lg text-gray-400">
             Let&apos;s discuss how we can transform your digital presence
           </p>
-        </motion.div>
+        </MotionDiv>
 
         <div className="grid gap-12 md:grid-cols-2">
           {/* Contact Information */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -113,10 +116,10 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Contact Form */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -193,7 +196,7 @@ export default function ContactPage() {
                 {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
-          </motion.div>
+          </MotionDiv>
         </div>
       </MaxWidthWrapper>
     </div>

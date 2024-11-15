@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Code2, Cpu, Globe2, Laptop, Rocket, Users } from "lucide-react";
 
+const MotionDiv = motion.create('div')
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
@@ -14,7 +16,7 @@ export default function AboutPage() {
       </div>
 
       <MaxWidthWrapper className="relative pb-20 pt-24">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -28,10 +30,10 @@ export default function AboutPage() {
             With over a decade of experience in web development and IT
             consulting, I help businesses build powerful digital solutions.
           </p>
-        </motion.div>
+        </MotionDiv>
 
         <div className="grid items-center gap-12 md:grid-cols-2">
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -62,9 +64,9 @@ export default function AboutPage() {
                 <p className="text-gray-400">Architecture</p>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
 
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -77,7 +79,7 @@ export default function AboutPage() {
               height={400}
               className="rounded-lg shadow-2xl"
             />
-          </motion.div>
+          </MotionDiv>
         </div>
 
         {/* Services Section */}
@@ -106,7 +108,7 @@ export default function AboutPage() {
                   "Strategic technology guidance and digital transformation",
               },
             ].map((service, i) => (
-              <motion.div
+              <MotionDiv
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -116,7 +118,7 @@ export default function AboutPage() {
                 <div className="mb-4">{service.icon}</div>
                 <h3 className="mb-2 text-xl font-bold">{service.title}</h3>
                 <p className="text-gray-400">{service.description}</p>
-              </motion.div>
+              </MotionDiv>
             ))}
           </div>
         </div>
@@ -145,7 +147,7 @@ export default function AboutPage() {
                   "Focused on delivering measurable business outcomes",
               },
             ].map((item, i) => (
-              <motion.div
+              <MotionDiv
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -155,7 +157,7 @@ export default function AboutPage() {
                 <div className="mb-4">{item.icon}</div>
                 <h3 className="mb-2 text-xl font-bold">{item.title}</h3>
                 <p className="text-gray-400">{item.description}</p>
-              </motion.div>
+              </MotionDiv>
             ))}
           </div>
         </div>

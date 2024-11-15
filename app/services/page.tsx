@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
+const MotionDiv = motion.create('div')
+
 export default function ServicesPage() {
   const services = [
     {
@@ -36,7 +38,7 @@ export default function ServicesPage() {
       </div>
 
       <MaxWidthWrapper className="relative pb-20 pt-24">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -48,11 +50,11 @@ export default function ServicesPage() {
           <p className="mx-auto max-w-2xl text-lg text-gray-400">
             Comprehensive web development solutions tailored to your needs
           </p>
-        </motion.div>
+        </MotionDiv>
 
         <div className="grid gap-8 md:grid-cols-3">
           {services.map((service, i) => (
-            <motion.div
+            <MotionDiv
               key={i}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -77,7 +79,7 @@ export default function ServicesPage() {
                   ))}
                 </ul>
               </Card>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
 
@@ -107,7 +109,7 @@ export default function ServicesPage() {
                 description: "Deploying and maintaining your project",
               },
             ].map((step, i) => (
-              <motion.div
+              <MotionDiv
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -119,7 +121,7 @@ export default function ServicesPage() {
                 </span>
                 <h3 className="mt-4 text-xl font-bold">{step.title}</h3>
                 <p className="mt-2 text-gray-400">{step.description}</p>
-              </motion.div>
+              </MotionDiv>
             ))}
           </div>
         </div>

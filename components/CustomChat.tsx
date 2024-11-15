@@ -38,6 +38,8 @@ const QUICK_RESPONSES = [
   },
 ];
 
+const MotionDiv = motion.create('div')
+
 export default function CustomChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -105,13 +107,13 @@ export default function CustomChat() {
         onNotificationClick={handleNotificationClick}
       />
       <div className="fixed bottom-4 right-4 z-50">
-        <motion.div
+        <MotionDiv
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           className="flex flex-col"
         >
           {isOpen && (
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
@@ -172,7 +174,7 @@ export default function CustomChat() {
                   </button>
                 </div>
               </form>
-            </motion.div>
+            </MotionDiv>
           )}
 
           <button
@@ -181,7 +183,7 @@ export default function CustomChat() {
           >
             {isOpen ? <X className="h-6 w-6" /> : "💬"}
           </button>
-        </motion.div>
+        </MotionDiv>
       </div>
     </>
   );

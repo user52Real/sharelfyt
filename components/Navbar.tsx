@@ -15,7 +15,8 @@ const navItems = [
   { href: '/portfolio', label: 'Portfolio' },
 ]
 
-const MotionLink = motion(Link)
+const MotionLink = motion.create(Link)
+const MotionDiv = motion.create('div')
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -58,13 +59,13 @@ export default function Navbar() {
               className="group flex items-center gap-2 text-xl font-bold"
               aria-label="ShareFlyt - Return to homepage"
             >
-              <motion.div
+              <MotionDiv
                 initial={{ rotate: 0 }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 0.7, ease: "easeInOut" }}
               >
                 <RocketIcon className="h-6 w-6 transition-transform group-hover:-rotate-12" />
-              </motion.div>
+              </MotionDiv>
               <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 ShareFlyt
               </span>
@@ -93,7 +94,7 @@ export default function Navbar() {
                       <span className="relative z-10">{item.label}</span>
 
                       {hoveredPath === item.href && (
-                        <motion.div
+                        <MotionDiv
                           layoutId="navbar-hover"
                           className="absolute inset-0 -z-10 rounded-lg bg-white/10"
                           transition={{
@@ -105,7 +106,7 @@ export default function Navbar() {
                       )}
 
                       {isActive && (
-                        <motion.div
+                        <MotionDiv
                           layoutId="navbar-active"
                           className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400"
                           transition={{
@@ -127,17 +128,17 @@ export default function Navbar() {
               className="relative z-50 rounded-lg p-2 hover:bg-white/10 md:hidden"
               aria-label={isOpen ? "Close menu" : "Open menu"}
             >
-              <motion.div
+              <MotionDiv
                 animate={{ rotate: isOpen ? 90 : 0 }}
                 transition={{ duration: 0.2 }}
               >
                 <Menu className="h-6 w-6 text-white" />
-              </motion.div>
+              </MotionDiv>
             </button>
           </div>
         </MaxWidthWrapper>
 
-        <motion.div
+        <MotionDiv
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           className="absolute bottom-0 h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent"
@@ -152,7 +153,7 @@ export default function Navbar() {
       )}
 
       {/* Mobile Navigation Panel */}
-      <motion.div
+      <MotionDiv
         initial={{ x: "100%" }}
         animate={{ x: isOpen ? 0 : "100%" }}
         transition={{ type: "spring", damping: 20 }}
@@ -196,7 +197,7 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </MotionDiv>
     </>
   )
 }

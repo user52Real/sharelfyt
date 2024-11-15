@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
+const MotionDiv = motion.create('div')
+
 export default function PortfolioPage() {
   const projects = [
     {
@@ -38,7 +40,7 @@ export default function PortfolioPage() {
       </div>
 
       <MaxWidthWrapper className="relative pb-20 pt-24">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -50,11 +52,11 @@ export default function PortfolioPage() {
           <p className="mx-auto max-w-2xl text-lg text-gray-400">
             Showcasing our best work and successful projects
           </p>
-        </motion.div>
+        </MotionDiv>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
-            <motion.div
+            <MotionDiv
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -86,7 +88,7 @@ export default function PortfolioPage() {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
       </MaxWidthWrapper>

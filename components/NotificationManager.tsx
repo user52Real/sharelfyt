@@ -13,6 +13,8 @@ interface NotificationManagerProps {
   onNotificationClick: () => void;
 }
 
+const MotionDiv = motion.create('div')
+
 export default function NotificationManager({
   socket,
   onNotificationClick,
@@ -68,7 +70,7 @@ export default function NotificationManager({
   return (
     <AnimatePresence>
       {notification && (
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
@@ -102,7 +104,7 @@ export default function NotificationManager({
               <X className="h-5 w-5" />
             </button>
           </div>
-        </motion.div>
+        </MotionDiv>
       )}
     </AnimatePresence>
   );

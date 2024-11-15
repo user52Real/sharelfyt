@@ -32,6 +32,8 @@ interface MobileNavProps {
   items: NavItem[]
 }
 
+const MotionDiv = motion.create('div')
+
 export default function MobileNav({ items }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
@@ -59,7 +61,7 @@ export default function MobileNav({ items }: MobileNavProps) {
         className="fixed right-4 top-4 z-[100] rounded-lg bg-gray-900/90 p-2 backdrop-blur-sm transition-colors hover:bg-gray-800/90"
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
-        <motion.div
+        <MotionDiv
           initial={false}
           animate={{ rotate: isOpen ? 90 : 0 }}
           transition={{ duration: 0.2 }}
@@ -69,7 +71,7 @@ export default function MobileNav({ items }: MobileNavProps) {
           ) : (
             <Menu className="h-6 w-6 text-white" />
           )}
-        </motion.div>
+        </MotionDiv>
       </button>
 
       {/* Full Screen Menu */}
@@ -77,7 +79,7 @@ export default function MobileNav({ items }: MobileNavProps) {
         {isOpen && (
           <>
             {/* Backdrop */}
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -87,7 +89,7 @@ export default function MobileNav({ items }: MobileNavProps) {
             />
 
             {/* Menu Content */}
-            <motion.div
+            <MotionDiv
               variants={menuVariants}
               initial="closed"
               animate="open"
@@ -136,7 +138,7 @@ export default function MobileNav({ items }: MobileNavProps) {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </MotionDiv>
           </>
         )}
       </AnimatePresence>

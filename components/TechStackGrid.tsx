@@ -28,11 +28,13 @@ const techStack = [
   },
 ];
 
+const MotionDiv = motion.create('div')
+
 export function TechStackGrid() {
   return (
     <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
       {techStack.map((tech, i) => (
-        <motion.div
+        <MotionDiv
           key={tech.name}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -54,7 +56,7 @@ export function TechStackGrid() {
             </div>
             <span className="mt-3 text-sm font-medium">{tech.name}</span>
           </div>
-        </motion.div>
+        </MotionDiv>
       ))}
     </div>
   );

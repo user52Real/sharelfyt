@@ -2,11 +2,13 @@
 
 import { motion } from "framer-motion";
 
+const MotionDiv = motion.create('div')
+
 const AnimatedGraphics = () => {
   return (
     <div className="relative mt-32 overflow-hidden">
       <div className="relative mx-auto max-w-5xl">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -34,7 +36,7 @@ const AnimatedGraphics = () => {
                 color: "from-purple-400 to-purple-600",
               },
             ].map((item, index) => (
-              <motion.div
+              <MotionDiv
                 key={index}
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -54,12 +56,12 @@ const AnimatedGraphics = () => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </MotionDiv>
             ))}
           </div>
 
           {/* Floating Elements */}
-          <motion.div
+          <MotionDiv
             animate={{
               y: [0, -10, 0],
             }}
@@ -71,9 +73,9 @@ const AnimatedGraphics = () => {
             className="absolute -right-20 top-20"
           >
             <div className="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 blur-xl" />
-          </motion.div>
+          </MotionDiv>
 
-          <motion.div
+          <MotionDiv
             animate={{
               y: [0, 10, 0],
             }}
@@ -85,7 +87,7 @@ const AnimatedGraphics = () => {
             className="absolute -left-10 bottom-20"
           >
             <div className="h-20 w-20 rounded-full bg-gradient-to-r from-emerald-500/30 to-blue-500/30 blur-xl" />
-          </motion.div>
+          </MotionDiv>
 
           {/* Code Lines Background */}
           <div className="absolute inset-0 opacity-10">
@@ -97,7 +99,7 @@ const AnimatedGraphics = () => {
               />
             ))}
           </div>
-        </motion.div>
+        </MotionDiv>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["three", "@floating-ui/react", "@floating-ui/dom"],
+  transpilePackages: ["three", "@floating-ui/react", "@floating-ui/dom", "@react-three/drei", "@react-three/fiber"],
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -32,8 +32,10 @@ const nextConfig = {
     // Handle Three.js and WebSocket-related externals
     if (isServer) {
       config.externals.push({
-        "utf-8-validate": "commonjs utf-8-validate",
-        bufferutil: "commonjs bufferutil",
+        'webgl-sdf-generator': 'commonjs webgl-sdf-generator',
+        'utf-8-validate': 'commonjs utf-8-validate',
+        bufferutil: 'commonjs bufferutil',
+        canvas: 'commonjs canvas',
       });
     }
 
@@ -53,6 +55,8 @@ const nextConfig = {
         tls: false,
         dns: false,
         child_process: false,
+        canvas: false,
+        'webgl-sdf-generator': false,
       };
     }
 
