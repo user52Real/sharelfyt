@@ -33,7 +33,7 @@ A modern web development portfolio and services website built with Next.js 14, T
 ### Prerequisites
 
 - Node.js 18+ 
-- pnpm (recommended) or npm
+- npm
 
 ### Installation
 
@@ -45,7 +45,7 @@ cd shareflyt
 
 2. Install dependencies:
 ```bash
-pnpm install
+npm install
 ```
 
 3. Create a `.env` file based on `.env.example`:
@@ -58,7 +58,7 @@ NEXT_PUBLIC_SENTRY_DSN=
 
 4. Run the development server:
 ```bash
-pnpm dev
+npm run dev
 ```
 
 5. Open [https://www.shareflyt.xyz/) in your browser.
@@ -80,18 +80,14 @@ pnpm dev
 Run the test suite:
 
 ```bash
-pnpm test
+npm test
 ```
 
 Run tests in watch mode:
 
 ```bash
-pnpm test:watch
+npm test:watch
 ```
-
-## Deployment
-
-The project is configured for deployment on Vercel. Push to the main branch to trigger automatic deployment.
 
 ## Security
 
