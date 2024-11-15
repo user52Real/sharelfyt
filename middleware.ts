@@ -4,6 +4,7 @@ function generateNonce(): string {
   return crypto.randomUUID();
 }
 
+
 export function middleware(request: NextRequest) {
   const nonce = generateNonce();
   const isProd = process.env.NODE_ENV === 'production';
@@ -30,6 +31,14 @@ export function middleware(request: NextRequest) {
 
   if (isDev) {
     scriptSources.push("'unsafe-inline'");
+  }
+
+  if (request.nextUrl.locale === 'default') {
+    const locale = request.cookies.get('NEXT_LOCALE')?.value || 'en'
+ 
+    return NextResponse.redirect(
+      new URL(`/${locale}${request.nextUrl.pathname}${request.nextUrl.search}`, request.url)
+    )
   }
 
   // Fixed CSP header

@@ -1,3 +1,9 @@
+// next.config.mjs
+import createNextIntlPlugin from 'next-intl/plugin';
+import { withSentryConfig } from "@sentry/nextjs";
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["three", "@floating-ui/react", "@floating-ui/dom", "@react-three/drei", "@react-three/fiber"],
@@ -9,7 +15,7 @@ const nextConfig = {
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
+  }, 
   modularizeImports: {
     '@floating-ui/react': {
       transform: '@floating-ui/react/dist/{{member}}'
@@ -24,12 +30,10 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   webpack: (config, { isServer }) => {
-    // Correct externals configuration
     if (!config.externals) {
       config.externals = [];
     }
 
-    // Handle Three.js and WebSocket-related externals
     if (isServer) {
       config.externals.push({
         'webgl-sdf-generator': 'commonjs webgl-sdf-generator',
@@ -39,14 +43,12 @@ const nextConfig = {
       });
     }
 
-    // Handle OrbitControls properly
     config.resolve.alias = {
       ...config.resolve.alias,
       'three/OrbitControls': 'three/examples/jsm/controls/OrbitControls',
       'bidi-js': false, 
     };
 
-    // Client-side fallbacks
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -62,7 +64,6 @@ const nextConfig = {
 
     return config;
   },
-  // CORS headers configuration
   async headers() {
     return [
       {
@@ -75,7 +76,6 @@ const nextConfig = {
         ],
       },
       {
-        // Proper content type for manifest
         source: '/manifest.json',
         headers: [
           {
@@ -105,10 +105,6 @@ const nextConfig = {
   },
 };
 
-// Sentry configuration
-const { withSentryConfig } = require("@sentry/nextjs");
-
-// Sentry configuration options
 const sentryWebpackPluginOptions = {
   org: "shareflyt",
   project: "shareflyt",
@@ -122,8 +118,7 @@ const sentryWebpackPluginOptions = {
   automaticVercelMonitors: true,
 };
 
-// Export the configuration
-module.exports = withSentryConfig(
-  nextConfig,
+export default withSentryConfig(
+  withNextIntl(nextConfig),
   sentryWebpackPluginOptions
 );

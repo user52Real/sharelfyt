@@ -7,8 +7,10 @@ import Footer from "@/components/Footer";
 import CustomChat from "@/components/CustomChat";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { NonceProvider } from '@/components/providers/NonceProvider';
+import { getMessages, getLocale, getNow, getTimeZone } from 'next-intl/server';
+import IntlProvider from '@/components/providers/IntlProvider';
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -32,37 +34,49 @@ export const viewport = {
   themeColor: '#3B82F6',
 }
 
-export default function RootLayout({
+export type Locale = 'en' | 'nl';
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const nonce = headers().get('x-nonce') || '';
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const now = await getNow();
+  const timeZone = await getTimeZone();
 
   return (
-    <html lang="en" className='dark'>     
+    <html lang={locale} className='dark'>     
       <head>
         <meta name="google-site-verification" content="qlvYdqcefjASHWfvGkw4CMp_dL0hIm5ohc5AOkQaWZk" />
       </head>
       <body
         className={cn(
-          " min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",
+          "min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",
           GeistSans.className,
         )}
       >
-        <NonceProvider nonce={process.env.NONCE || ''}>
-          <ErrorBoundary>          
-            <div className="fixed left-0 right-0 top-0 z-[100]">
-              <Navbar />
-            </div>
-            <main className="flex-1 pt-16" id="main-content" tabIndex={-1}>
-              {children}
-              {/* <SpeedInsights /> */}
-            </main>
-            <CustomChat />
-            <Footer />
-          </ErrorBoundary>
-        </NonceProvider>        
+        <IntlProvider 
+          locale={locale} 
+          messages={messages as any}
+          timeZone={timeZone}
+          now={now}
+        >
+          <NonceProvider nonce={process.env.NONCE || ''}>
+            <ErrorBoundary>          
+              <div className="fixed left-0 right-0 top-0 z-[100]">
+                <Navbar />
+              </div>
+              <main className="flex-1 pt-16" id="main-content" tabIndex={-1}>
+                {children}
+              </main>
+              <CustomChat />
+              <Footer />
+            </ErrorBoundary>
+          </NonceProvider>
+        </IntlProvider>        
       </body>
     </html>
   );

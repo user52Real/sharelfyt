@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Menu, RocketIcon } from 'lucide-react'
 import MaxWidthWrapper from './MaxWidthWrapper'
-import MobileNav from './MobileNav'
+import { useTranslations } from 'next-intl'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -17,12 +18,14 @@ const navItems = [
 
 const MotionLink = motion.create(Link)
 const MotionDiv = motion.create('div')
+const MotionNav = motion.create('nav')
 
 export default function Navbar() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [hoveredPath, setHoveredPath] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const t = useTranslations('nav');  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +43,7 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav
+      <MotionNav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed left-0 right-0 top-0 z-40 transition-all duration-300 ${
@@ -69,10 +72,11 @@ export default function Navbar() {
               <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 ShareFlyt
               </span>
+              
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex md:items-center md:space-x-1">
+            <div className="hidden md:flex md:items-center md:space-x-1">              
               {navItems.map((item) => {
                 const isActive = pathname === item.href
                 
@@ -117,9 +121,14 @@ export default function Navbar() {
                         />
                       )}
                     </MotionLink>
+                    
                   </div>
                 )
-              })}           
+              })}
+
+              <div className="ml-4">
+                <LanguageSwitcher />
+              </div>                
             </div>
 
             {/* Mobile Menu Button */}
@@ -136,6 +145,7 @@ export default function Navbar() {
               </MotionDiv>
             </button>
           </div>
+          
         </MaxWidthWrapper>
 
         <MotionDiv
@@ -143,7 +153,8 @@ export default function Navbar() {
           animate={{ scaleX: 1 }}
           className="absolute bottom-0 h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent"
         />
-      </motion.nav>
+        
+      </MotionNav>
 
       {/* Mobile Navigation Overlay */}
       {isOpen && (
@@ -177,6 +188,10 @@ export default function Navbar() {
               </Link>
             )
           })}
+
+          <div className="px-4">
+              <LanguageSwitcher />
+          </div>
         </nav>
 
         {/* Contact Card */}
@@ -195,7 +210,7 @@ export default function Navbar() {
             >
               Contact Us
             </Link>
-          </div>
+          </div>          
         </div>
       </MotionDiv>
     </>

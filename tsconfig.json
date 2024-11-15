@@ -32,7 +32,8 @@
     "types": [
       "jest",
       "node",
-      "three"
+      "three",
+      "next-intl"
     ]
   },
   "include": [
@@ -42,7 +43,8 @@
     ".next/types/**/*.ts",
     "src",
     "jest.setup.ts",
-    "__tests__/**/*.test.tsx"
+    "__tests__/**/*.test.tsx",
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

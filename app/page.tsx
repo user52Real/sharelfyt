@@ -10,14 +10,17 @@ import Scene from "@/components/3D/Scene";
 import { Suspense } from "react";
 import { PageLoader, SectionLoader } from '../components/loading/page-loader';
 import { TechStackGrid } from "@/components/TechStackGrid";
+import { useTranslations } from 'next-intl';
 
 const MotionDiv = motion.create('div')
 const MotionP = motion.create('p')
 
 export default function Home() {
+  const t = useTranslations('home');
+
   return (
     <Suspense fallback={<PageLoader />}>
-      <div className=" relative min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
+      <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
         {/* Animated Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
@@ -36,7 +39,7 @@ export default function Home() {
             <br />
             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
               <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">
-                Crafting Digital Excellence
+                {t('hero.title')}
               </span>
             </h1>
 
@@ -46,8 +49,7 @@ export default function Home() {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="mt-6 max-w-2xl text-xl text-gray-300"
             >
-              Full Stack Developer specializing in creating exceptional digital
-              experiences with modern technologies and innovative solutions.
+              {t('hero.subtitle')}
             </MotionP>
 
             <MotionDiv
@@ -66,7 +68,7 @@ export default function Home() {
                   }),
                 )}
               >
-                Get in Touch
+                {t('cta.contact')}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
 
@@ -81,7 +83,7 @@ export default function Home() {
                   }),
                 )}
               >
-                Explore My Work
+                {t('cta.portfolio')}
               </Link>
             </MotionDiv>
           </MotionDiv>
@@ -97,12 +99,13 @@ export default function Home() {
           >
             <div className="absolute inset-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
             <h2 className="mb-8 text-center text-sm font-medium uppercase tracking-wider text-gray-400">
-              Technologies I Work With
+              {t('techStack.title')}
             </h2>
             <TechStackGrid />
           </MotionDiv>
           <br />
           <br />
+          
           {/* Interactive Experience Section */}
           <Scene />        
 
@@ -111,19 +114,18 @@ export default function Home() {
           {/* Newsletter Signup */}
           <MaxWidthWrapper className="relative py-20">
             <div className="relative rounded-xl border border-gray-800 bg-black/40 p-8 text-center backdrop-blur-sm">
-              <h2 className="mb-4 text-2xl font-bold">Stay Updated</h2>
+              <h2 className="mb-4 text-2xl font-bold">{t('newsletter.title')}</h2>
               <p className="mb-6 text-gray-400">
-                Subscribe to my newsletter for the latest web development insights
-                and tips.
+                {t('newsletter.description')}
               </p>
               <div className="mx-auto flex max-w-md gap-4">
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t('newsletter.emailPlaceholder')}
                   className="flex-1 rounded-lg border border-gray-800 bg-black/20 px-4 py-2"
                 />
                 <button className="rounded-lg bg-gradient-to-r from-blue-500 to-emerald-500 px-6 py-2 font-medium text-white">
-                  Subscribe
+                  {t('newsletter.subscribe')}
                 </button>
               </div>
             </div>

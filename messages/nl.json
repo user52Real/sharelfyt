@@ -1,0 +1,65 @@
+{
+    "nav": {
+    "about": "Over ons",
+    "services": "Diensten",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+    },
+    "home": {
+      "hero": {
+        "title": "Digitale Excellentie Creëren",
+        "subtitle": "Full Stack Developer gespecialiseerd in het creëren van uitzonderlijke digitale ervaringen met moderne technologieën en innovatieve oplossingen."
+      },
+      "cta": {
+        "contact": "Neem Contact Op",
+        "portfolio": "Bekijk Mijn Werk"
+      },
+      "techStack": {
+        "title": "Technologieën Waarmee Ik Werk"
+      },
+      "newsletter": {
+        "title": "Blijf Op De Hoogte",
+        "description": "Abonneer je op mijn nieuwsbrief voor de laatste webontwikkeling inzichten en tips.",
+        "emailPlaceholder": "Vul je e-mailadres in",
+        "subscribe": "Abonneren"
+      }
+    },
+    "navigation": {
+        "home": "Home",
+        "about": "Over Ons",
+        "services": "Diensten",
+        "portfolio": "Portfolio",
+        "contact": "Contact"
+    },
+    "common": {
+        "learnMore": "Meer informatie",
+        "getStarted": "Aan de slag",
+        "sendMessage": "Bericht versturen",
+        "loading": "Laden..."
+    },
+    "contact": {
+        "title": "Neem Contact Op",
+        "subtitle": "Laten we bespreken hoe we uw digitale aanwezigheid kunnen transformeren",
+        "name": "Naam",
+        "email": "E-mail",
+        "message": "Bericht",
+        "success": "Bericht succesvol verzonden!",
+        "error": "Er is iets misgegaan"
+    },
+    "services": {
+        "title": "Onze Diensten",
+        "subtitle": "Complete webontwikkelingsoplossingen op maat",
+        "webDev": {
+        "title": "Webontwikkeling",
+        "description": "Aangepaste websites en webapplicaties gebouwd met moderne technologieën"
+        },
+        "mobileDev": {
+        "title": "Mobiele Ontwikkeling",
+        "description": "Native en cross-platform mobiele applicaties"
+        },
+        "cloud": {
+        "title": "Cloud Oplossingen",
+        "description": "Schaalbare en veilige cloud infrastructuur"
+        }
+    }
+  }

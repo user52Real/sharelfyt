@@ -1,0 +1,27 @@
+{
+    "nav": {
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+    },
+    "home": {
+      "hero": {
+        "title": "Crafting Digital Excellence",
+        "subtitle": "Full Stack Developer specializing in creating exceptional digital experiences with modern technologies and innovative solutions."
+      },
+      "cta": {
+        "contact": "Get in Touch",
+        "portfolio": "Explore My Work"
+      },
+      "techStack": {
+        "title": "Technologies I Work With"
+      },
+      "newsletter": {
+        "title": "Stay Updated",
+        "description": "Subscribe to my newsletter for the latest web development insights and tips.",
+        "emailPlaceholder": "Enter your email",
+        "subscribe": "Subscribe"
+      }
+    }
+}
