@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, X } from "lucide-react";
 import {
@@ -19,29 +19,11 @@ export default function NotificationManager({
   socket,
   onNotificationClick,
 }: NotificationManagerProps) {
-  const [permission, setPermission] =
-    useState<NotificationPermission>("default");
+  const [permission, setPermission] = useState<NotificationPermission>("default");
   const [notification, setNotification] = useState<NotificationState>(null);
 
-  useEffect(() => {
-    if ("Notification" in window) {
-      Notification.requestPermission().then((perm) => {
-        setPermission(perm);
-      });
-    }
-
-    socket?.on("message", (message: any) => {
-      if (document.hidden) {
-        showNotification(message);
-      }
-    });
-
-    return () => {
-      socket?.off("message");
-    };
-  }, [socket]);
-
-  const showNotification = (message: any) => {
+  
+  const showNotification = useCallback((message: any) => {
     if (permission === "granted") {
       const browserNotification = new Notification("New Message", {
         body: message.text,
@@ -65,7 +47,25 @@ export default function NotificationManager({
     };
 
     setNotification(newNotification);
-  };
+  }, [permission, onNotificationClick]);
+
+  useEffect(() => {
+    if ("Notification" in window) {
+      Notification.requestPermission().then((perm) => {
+        setPermission(perm);
+      });
+    }
+
+    socket?.on("message", (message: any) => {
+      if (document.hidden) {
+        showNotification(message);
+      }
+    });
+
+    return () => {
+      socket?.off("message");
+    };
+  }, [socket, showNotification]);
 
   return (
     <AnimatePresence>

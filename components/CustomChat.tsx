@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Send, X } from "lucide-react";
 import NotificationManager from "./NotificationManager";
@@ -47,13 +47,14 @@ export default function CustomChat() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
-  useEffect(() => {
+  const handleNotificationClick = useCallback(() => {
+    setIsOpen(true);
     scrollToBottom();
-  }, [messages]);
+  }, [scrollToBottom]); 
 
   const handleSendMessage = (text: string) => {
     // Add user message
@@ -64,7 +65,7 @@ export default function CustomChat() {
         isUser: true,
         timestamp: new Date(),
       },
-    ]);
+    ]);    
 
     // Find matching quick response or generate default response
     const matchingResponse = QUICK_RESPONSES.find((r) =>
@@ -95,10 +96,9 @@ export default function CustomChat() {
     }
   };
 
-  const handleNotificationClick = () => {
-    setIsOpen(true);
+  useEffect(() => {
     scrollToBottom();
-  };
+  }, [messages, scrollToBottom]);
 
   return (
     <>
