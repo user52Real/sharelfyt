@@ -40,41 +40,22 @@ export default function RootLayout({
   const nonce = headers().get('x-nonce') || '';
 
   return (
-    <html lang="en" className="dark">
-      {/* <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script
-          nonce={nonce}
-          dangerouslySetInnerHTML={{
-            __html: `window.__NONCE__ = "${nonce}";`,
-          }}
-        />
-        <script 
-          nonce={nonce}
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark')
-                }
-              } catch (_) {}
-            `
-          }} 
-        />
-      </head>      */}
+    <html lang="en" className='dark'>     
       <head>
         <meta name="google-site-verification" content="qlvYdqcefjASHWfvGkw4CMp_dL0hIm5ohc5AOkQaWZk" />
       </head>
       <body
         className={cn(
-          "flex min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",
+          " min-h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black font-sans antialiased",
           GeistSans.className,
         )}
       >
-        <NonceProvider nonce={nonce}>
+        <NonceProvider nonce={process.env.NONCE || ''}>
           <ErrorBoundary>          
-            <Navbar />
-            <main className="flex-1" id="main-content" tabIndex={-1}>
+            <div className="fixed left-0 right-0 top-0 z-[100]">
+              <Navbar />
+            </div>
+            <main className="flex-1 pt-16" id="main-content" tabIndex={-1}>
               {children}
               {/* <SpeedInsights /> */}
             </main>

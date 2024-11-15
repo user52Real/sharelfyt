@@ -4,42 +4,14 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Home, Info, Briefcase, Phone, Settings, Menu, X, ChevronRight } from 'lucide-react'
 
-// Animation variants
 const menuVariants = {
   closed: {
     opacity: 0,
     x: "100%",
-    transition: {
-      duration: 0.3,
-      when: "afterChildren",
-      staggerChildren: 0.05,
-    }
   },
   open: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.3,
-      when: "beforeChildren",
-      staggerChildren: 0.05,
-    }
-  }
-}
-
-const itemVariants = {
-  closed: { 
-    opacity: 0,
-    x: 20,
-    transition: {
-      duration: 0.2
-    }
-  },
-  open: { 
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.2
-    }
   }
 }
 
@@ -48,7 +20,6 @@ const navItems = [
   { href: '/about', label: 'About', icon: Info },
   { href: '/services', label: 'Services', icon: Settings },
   { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
-  { href: '/contact', label: 'Contact', icon: Phone },
 ]
 
 interface NavItem {
@@ -65,12 +36,10 @@ export default function MobileNav({ items }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   
-  // Close menu on route change
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -87,99 +56,88 @@ export default function MobileNav({ items }: MobileNavProps) {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative z-50 rounded-lg p-2 hover:bg-white/10"
+        className="fixed right-4 top-4 z-[100] rounded-lg bg-gray-900/90 p-2 backdrop-blur-sm transition-colors hover:bg-gray-800/90"
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={isOpen ? 'close' : 'menu'}
-            initial={{ opacity: 0, rotate: -90 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            exit={{ opacity: 0, rotate: 90 }}
-            transition={{ duration: 0.2 }}
-          >
-            {isOpen ? (
-              <X className="h-6 w-6 text-white" />
-            ) : (
-              <Menu className="h-6 w-6 text-white" />
-            )}
-          </motion.div>
-        </AnimatePresence>
+        <motion.div
+          initial={false}
+          animate={{ rotate: isOpen ? 90 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {isOpen ? (
+            <X className="h-6 w-6 text-white" />
+          ) : (
+            <Menu className="h-6 w-6 text-white" />
+          )}
+        </motion.div>
       </button>
 
-      {/* Overlay */}
+      {/* Full Screen Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-            onClick={() => setIsOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[50] bg-black/60 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
 
-      {/* Navigation Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            variants={menuVariants}
-            initial="closed"
-            animate="open"
-            exit="closed"
-            className="fixed inset-y-0 right-0 z-40 w-3/4 max-w-sm bg-gradient-to-b from-gray-900 to-black px-6 py-24 shadow-2xl"
-          >
-            <nav className="space-y-2">
-              {navItems.map((item) => {
-                const Icon = item.icon
-                const isActive = pathname === item.href
+            {/* Menu Content */}
+            <motion.div
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              transition={{ type: "tween", duration: 0.3 }}
+              className="fixed inset-y-0 right-0 z-[55] flex w-3/4 max-w-sm flex-col bg-gray-900/95 backdrop-blur-lg"
+            >
+              <nav className="space-y-2">
+                {navItems.map((item) => {
+                  const Icon = item.icon
+                  const isActive = pathname === item.href
 
-                return (
-                  <motion.div key={item.href} variants={itemVariants}>
+                  return (
                     <Link
+                      key={item.href}
                       href={item.href}
-                      className={`group flex items-center space-x-4 rounded-lg p-3 text-lg transition-colors ${
+                      className={`flex items-center space-x-4 rounded-lg p-4 text-lg transition-colors ${
                         isActive
                           ? 'bg-blue-500/20 text-blue-400'
                           : 'text-gray-300 hover:bg-white/10 hover:text-white'
                       }`}
                     >
-                      <Icon className={`h-5 w-5 transition-transform duration-300 group-hover:scale-110 ${
-                        isActive ? 'text-blue-400' : ''
-                      }`} />
+                      <Icon className={`h-6 w-6 ${isActive ? 'text-blue-400' : ''}`} />
                       <span>{item.label}</span>
-                      <ChevronRight className={`ml-auto h-5 w-5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100 ${
-                        isActive ? 'text-blue-400' : ''
-                      }`} />
+                      {isActive && <ChevronRight className="ml-auto h-5 w-5 text-blue-400" />}
                     </Link>
-                  </motion.div>
-                )
-              })}
-            </nav>
+                  )
+                })}
+              </nav>
 
-            {/* Bottom Section */}
-            <motion.div
-              variants={itemVariants}
-              className="absolute bottom-8 left-6 right-6"
-            >
-              <div className="rounded-lg border border-gray-800 bg-white/5 p-4 backdrop-blur-sm">
-                <h4 className="mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-lg font-bold text-transparent">
-                  Get in Touch
-                </h4>
-                <p className="mb-3 text-sm text-gray-400">
-                  Ready to start your project? Let&apos;s talk about your ideas.
-                </p>
-                <Link
-                  href="/contact"
-                  className="flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 py-2 text-sm font-medium text-white transition-transform hover:scale-105"
-                >
-                  Contact Us
-                </Link>
+              {/* Contact Card */}
+              <div className="border-t border-gray-800 bg-gray-900/95 px-6 py-6 backdrop-blur-lg">
+                <div className="rounded-lg border border-gray-800 bg-white/5 p-4">
+                  <h4 className="mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-lg font-bold text-transparent">
+                    Get in Touch
+                  </h4>
+                  <p className="mb-3 text-sm text-gray-400">
+                    Ready to start your project? Let&apos;s talk about your ideas.
+                  </p>
+                  <Link
+                    href="/contact"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-105"
+                  >
+                    Contact Us
+                  </Link>
+                </div>
               </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>

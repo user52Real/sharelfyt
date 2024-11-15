@@ -14,12 +14,12 @@ import { TechStackGrid } from "@/components/TechStackGrid";
 export default function Home() {
   return (
     <Suspense fallback={<PageLoader />}>
-      <div className="min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
+      <div className=" relative min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
         {/* Animated Background */}
-        <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-blue-500 opacity-20 blur-[100px]" />
-      </div>
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-blue-500 opacity-20 blur-[100px]" />
+        </div>
 
         {/* Hero Section */}
         <MaxWidthWrapper className="relative pb-20 pt-32">
@@ -63,7 +63,7 @@ export default function Home() {
                   }),
                 )}
               >
-                Start Your Project
+                Get in Touch
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
 
@@ -101,41 +101,7 @@ export default function Home() {
           <br />
           <br />
           {/* Interactive Experience Section */}
-          <Scene />
-
-          {/* Latest Articles/Blog Preview */}
-          {/* <MaxWidthWrapper className="relative py-20">
-            <h2 className="mb-16 bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-400 bg-clip-text text-center text-4xl font-bold text-transparent">
-              Latest Insights
-            </h2>
-            <div className="grid gap-8 md:grid-cols-3">
-              {[1, 2, 3].map((article) => (
-                <motion.div
-                  key={article}
-                  whileHover={{ y: -5 }}
-                  className="group relative overflow-hidden rounded-xl border border-gray-800 bg-black/40 backdrop-blur-sm"
-                >
-                  <div className="p-6">
-                    <span className="text-sm text-blue-400">Development</span>
-                    <h3 className="mt-2 text-xl font-bold">
-                      Modern Web Development Trends
-                    </h3>
-                    <p className="mt-2 text-gray-400">
-                      Exploring the latest technologies and best practices in web
-                      development.
-                    </p>
-                    <div className="mt-4 flex items-center text-sm text-gray-400">
-                      <span>5 min read</span>
-                      <span className="mx-2">•</span>
-                      <span>Dec 2023</span>
-                    </div>
-                  </div>
-                  
-                </motion.div>
-                
-              ))}
-            </div>
-          </MaxWidthWrapper> */}
+          <Scene />        
 
           <br />
           <br />
