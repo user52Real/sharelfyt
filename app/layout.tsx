@@ -9,6 +9,8 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { headers } from 'next/headers';
 import { NonceProvider } from '@/components/providers/NonceProvider';
+import { Analytics } from "@vercel/analytics/react"
+
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -57,7 +59,8 @@ export default function RootLayout({
             </div>
             <main className="flex-1 pt-16" id="main-content" tabIndex={-1}>
               {children}
-              {/* <SpeedInsights /> */}
+              <Analytics/>
+              <SpeedInsights />
             </main>
             <CustomChat />
             <Footer />
