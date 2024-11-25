@@ -36,7 +36,7 @@ export default function PortfolioPage() {
       description: "A comprehensive healthcare management platform built with Next.js 14, MongoDB, and Clerk authentication with Role-Based Access Control (RBAC)",
       image: "/patient.webp",
       tags: ["Next.js", "MongoDB", "Clerk"],
-      link: "patient-management-beta.vercel.app",
+      link: "https://patient-management-beta.vercel.app",
     },
   ];
 
