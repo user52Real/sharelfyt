@@ -2,6 +2,7 @@
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,28 +19,35 @@ export default function PortfolioPage() {
     },
     {
       title: "Collab Notes",
-      description: "",
+      description: "A collaborative note-taking platform that enables real-time editing and sharing of notes.Features include version history tracking, collaborative writing, and organized note stacks for better team productivity.",
       image: "/collab.webp",
       tags: ["NextJS", "Node.js", "Clerk"],
       link: "https://collab-notes-drab.vercel.app/",
     },
     {
       title: "Cafe POS System",
-      description: "",
+      description: "A comprehensive point-of-sale system for cafes featuring inventory management, order customization, express tablet billing, and real-time sales tracking. Includes features for employee management, menu customization, and detailed reporting capabilities.",
       image: "/cafepos.webp",
       tags: ["React", "Firebase", "Redux"],
       link: "https://github.com/alani4837/cafe-pos",
     },
+    {
+      title: "Patient Management System",
+      description: "A comprehensive healthcare management platform built with Next.js 14, MongoDB, and Clerk authentication with Role-Based Access Control (RBAC)",
+      image: "/patient.webp",
+      tags: ["Next.js", "MongoDB", "Clerk"],
+      link: "patient-management-beta.vercel.app",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-700 via-gray-900 text-white">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -right-32 -top-40 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-blue-500/20 to-purple-500/20 blur-3xl" />
         <div className="absolute -left-32 bottom-0 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 blur-3xl" />
       </div>
 
-      <MaxWidthWrapper className="relative pb-20 pt-24">
+      <MaxWidthWrapper className="relative pt-24">
         <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -56,12 +64,12 @@ export default function PortfolioPage() {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
+            <Link href={project.link} key={index} target="_blank" rel="noopener noreferrer">
             <MotionDiv
-              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="overflow-hidden rounded-lg bg-white/5 backdrop-blur-sm"
+              className="overflow-hidden rounded-lg bg-white/5 backdrop-blur-sm transition-all hover:scale-[1.02]"
             >
               {/* Image Container with Fixed Aspect Ratio */}
               <div className="relative aspect-[16/9] w-full overflow-hidden">
@@ -86,9 +94,10 @@ export default function PortfolioPage() {
                       {tag}
                     </span>
                   ))}
-                </div>
+                </div>                
               </div>
             </MotionDiv>
+            </Link>
           ))}
         </div>
       </MaxWidthWrapper>

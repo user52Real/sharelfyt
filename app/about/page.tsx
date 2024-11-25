@@ -9,7 +9,7 @@ const MotionDiv = motion.create('div')
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-700 via-gray-900 text-white">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -right-32 -top-40 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-blue-500/20 to-purple-500/20 blur-3xl" />
         <div className="absolute -left-32 bottom-0 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 blur-3xl" />
@@ -124,7 +124,7 @@ export default function AboutPage() {
         </div>
 
         {/* Approach Section */}
-        <div className="mt-32">
+        <div className="mt-48">
           <h2 className="mb-12 text-center text-3xl font-bold">My Approach</h2>
           <div className="grid gap-8 md:grid-cols-3">
             {[
